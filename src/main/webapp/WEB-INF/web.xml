@@ -4,4 +4,46 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>LoginService</servlet-name>
+  	<display-name>LoginService</display-name>
+  	<description></description>
+  	<servlet-class>org.davingci.resig.web.service.LoginService</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LogoutService</servlet-name>
+  	<display-name>LogoutService</display-name>
+  	<description></description>
+  	<servlet-class>org.davingci.resig.web.service.LogoutService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LoginService</servlet-name>
+  	<url-pattern>/LoginService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LogoutService</servlet-name>
+  	<url-pattern>/LogoutService</url-pattern>
+  </servlet-mapping>
+  
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/404.jsp</location>
+  </error-page>
+  <filter>
+  	<filter-name>LoginFilter</filter-name>
+  	<display-name>LoginFilter</display-name>
+  	<description></description>
+  	<filter-class>org.davingci.resig.web.filter.LoginFilter</filter-class>
+  	<init-param>  
+		<param-name>ignores</param-name>  
+		<param-value>/login.jsp;/LoginService;/css;/vendor;/img;/js</param-value>  
+	</init-param>
+  </filter>
+  
+  
+  <filter-mapping>
+  	<filter-name>LoginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
 </web-app>
