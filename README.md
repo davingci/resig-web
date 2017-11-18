@@ -1,4 +1,4 @@
-#resig-web
+# resig-web
 
 ## Scripts included
 * [Bootstrap](http://getbootstrap.com/)

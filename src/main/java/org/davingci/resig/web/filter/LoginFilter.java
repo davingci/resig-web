@@ -54,7 +54,7 @@ public class LoginFilter implements Filter {
 			return;
 		}
 		
-		if(session.getAttribute("userId") == null) {
+		if(session.getAttribute("token") == null) {
 			String loginPage = cp + "/login.jsp";
 			System.out.println(loginPage);
 			hResponse.sendRedirect(loginPage);

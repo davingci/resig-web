@@ -68,21 +68,29 @@ public class LoginService extends HttpServlet {
 				JSONObject serverResponseJSONObject = JSON.parseObject(serverResponseData);
 				
 				int code = serverResponseJSONObject.getInteger("code");
-				if(code==200) {
-					User user = JSON.parseObject(serverResponseJSONObject.getString("data"),User.class);
+				
+				switch(code) {
+				case 200:
+					String token = serverResponseJSONObject.getString("data");
+					
 					HttpSession session=request.getSession();  
-					session.setAttribute("userId",user.getUserId());
-					session.setAttribute("username", user.getUsername());
-				}
+						
+					session.setAttribute("token",token);
+					break;
+				case 401:
+					break;
+				} 
 				
 				break;
+			
 			default:
+				
 				break;
 				
 		}
 		
 		
-		System.out.println(serverResponseData);
+		
 		
 		response.getWriter().write(serverResponseData);	
 		response.getWriter().flush();

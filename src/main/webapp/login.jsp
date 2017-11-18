@@ -174,36 +174,40 @@
 			//login
 			
 			
+			
 			$("#login").on("click",function() {
+				var username = $("#username").val();
+				
 				var options = {
 		                url: '<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()%>/LoginService',
 		                type: 'post',
 		                dataType: 'text',
 		                data: $("#loginForm").serialize(),
-		                success: function (response) {
-		                	var responseData = JSON.parse(response);
-		                	var code = responseData.code;
+		                success: function (response,status,xhr) {
+		                	var obj = JSON.parse(response);
+		                	var code = obj.code;
 		                	switch(code) {
 		                	case 200:
+		                		window.sessionStorage.setItem("username",username);
 		                		window.location.href = "index.jsp";
-		                		
 		                		break;
-		                	case 201:
+		                	case 401:
 		                		bootbox.alert({
-		                		    message: responseData.message,
+		                		    message: obj.message,
 		                		    size: 'small'
 		                		});
 		                		break;
-		                	case 202:
+		                	default:
 		                		bootbox.alert({
-		                		    message: responseData.message,
+		                		    message: obj.message,
 		                		    size: 'small'
 		                		});
 		                		break;
-		                	}
+		                	}	
+		                	
 		                },
-		                failure: function(response) {
-							//
+		                failure: function(response,status,xhr) {
+							console.log(xhr.status);
 							console.log("failure.")
 						}
 		            };
@@ -211,6 +215,14 @@
 		            $.ajax(options);
 		            return false;
 	        });
+			
+			//check authuntication
+			$(document).on('ajaxError', function(event, xhr,setting, error) {
+				  if (xhr.status === 401) {
+				   
+				    window.location.href = "login.jsp";
+				  }
+			});
 			
 		});
 		

@@ -28,7 +28,7 @@
 								
 								<span class="user-info">
 									<small>welcome,</small>
-									<%=session.getAttribute("username") %>
+									<script>document.write(window.sessionStorage.getItem("username"))</script>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>

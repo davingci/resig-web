@@ -35,9 +35,9 @@
 										<h1 class="grey lighter smaller">
 											<span class="blue bigger-125">
 												<i class="ace-icon fa fa-sitemap"></i>
-												404
+												500
 											</span>
-											Page Not Found
+											Internal Server Error.
 										</h1>
 
 										
