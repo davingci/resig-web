@@ -27,7 +27,7 @@
 								Resig Admin
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Add Blog
+									Edit Blog
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -40,14 +40,14 @@
 
     <div class="row">
 							<div class="col-xs-12">
-      	<form class="form-horizontal" id="addBlogForm" >
+      	<form class="form-horizontal" id="editBlogForm" >
 		                                
 										
 									
 									    
 										
 										<div class="form-group">
-													<label for="input password" class="col-sm-3 control-label">title</label>
+													<label for="input" class="col-sm-3 control-label">title</label>
 													<div class="col-sm-9">
 													  <input type="text" class="form-control" id="title" name="title" placeholder="title" >
 													</div>
@@ -57,31 +57,35 @@
 										
 										
 										<div class="form-group">
-													<label for="input password" class="col-sm-3 control-label">content</label>
+													<label for="input" class="col-sm-3 control-label">content</label>
 													<div class="col-sm-9">
-													  <textarea class="form-control" rows="10" id="editor" name="editor" value="write your blog here..." >
+													  <textarea class="form-control" rows="10" id="content" name="content" value="write your blog here..." >
 													  </textarea>
 													</div>
-										</div>								
+										</div>
 						</form><!-- /.form -->
-										<div class="col-sm-offset-5 col-sm-10">
-											  <button  id="editorSave" class="btn btn-primary" >Save</button>
-											  <button  id="editorPost" class="btn btn-primary" >Post Blog</button>
+										
+											<div class="col-sm-offset-5 col-sm-10">
+											  <button  id="editConfirm" class="btn btn-primary" >Confirm</button>
 											  
 											</div>
+																	
+
 
   
 						</div>
 						</div>
+						
+						
+						
 						</div><!-- /.page-content -->
 				</div>
 				
 				
 				
-				
-</div><!-- /.main-content -->
-<script src="<%= request.getContextPath()%>/vendor/ckeditor-selfbuild/ckeditor/ckeditor/ckeditor.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/ckeditor-selfbuild/ckeditor/plupload-2.3.6/js/plupload.full.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/jquery-ui.min.js"></script>	
+<script src="<%= request.getContextPath()%>/vendor/jquery.form.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/bootbox.js"></script>
 <script>
 
 $(window).load(function(){
@@ -91,64 +95,29 @@ $(window).load(function(){
     console.log(para.blogId);
     var setup = function(obj){
     	if (obj.code == 200){
-    		//var data = obj.data;
-    		//$('#title').val(data.title);
-    		//$('#content').val(data.content);
+    		var data = obj.data;
+    		$('#title').val(data.title);
+    		$('#content').val(data.content);
     	}
     }
-    //var url = 'http://localhost:8080/resig-server/api/blog/get/' + blogId
-    //$.getJSON(url, setup);
+    var url = 'http://localhost:8080/resig-server/api/blog/get/' + blogId
+    $.getJSON(url, setup);
 });
 
+
+
 jQuery(function($) {
-	//handling the editor content
-	var ck = {
-			updateAll: function () {
-					for (instance in CKEDITOR.instances) {
-							CKEDITOR.instances[instance].updateElement();
-					}
-			},
-			resetAll: function () {
-					for (instance in CKEDITOR.instances) {
-							CKEDITOR.instances[instance].setData("");
-					}
-			},
-			update: function (id) {
-					CKEDITOR.instances[id].updateElement();
-			},
-			reset: function (id) {
-					CKEDITOR.instances[id].setData("");
-			},
-			set: function (id, content) {
-					CKEDITOR.instances[id].setData(content);
-			},
-			get: function(id) {
-					return CKEDITOR.instances[id].getData();
-			},
-			insert: function (id, content) {
-					CKEDITOR.instances[id].insertHtml(content);
-			}
-		};
-	//init editor
-  CKEDITOR.replace('editor');
-	 
-	
-	 
-	// save editor content 
-	$('#editorSave').click(function(){
-	var token = <%= session.getAttribute("token")%>;
+	$('#editConfirm').click(function(){
     var para = getParaFromUrl();
     var blogId = para.blogId;
-    var editorContent = ck.get();
-    var editorContent = $('#editBlogForm').formSerialize();
-    console.log(editorContent);
+    var updateString = $('#editBlogForm').formSerialize();
+    console.log(updateString);
+    updateString = "blogId=" + blogId + "&" + updateString;
+    console.log(updateString);
     var option = {
     		type: "POST",
-    		url: 'http://39.106.21.117:8080/v1/api/blog/add',
-    		data: editorContent,
-    		beforeSend: function(request){
-    			request.setRequestHeader("Authorization", token);
-    		},
+    		url: 'http://localhost:8080/resig-server/api/blog/update',
+    		data: updateString,
     		success:function(data){
     			var dialog = bootbox.dialog({
     			    message: '<p class="text-center">' + data.message + '</p>',
@@ -172,6 +141,41 @@ jQuery(function($) {
 })//end ready
 
 
+function getParaFromUrl() {
+	  
+	  var url = location.search; //obtain substring after '?'
+	   var paraFromUrl = new Object();
+	   if (url.indexOf("?") != -1) {
+	      var str = url.substr(1);
+	      strs = str.split("&");
+	      for(var i = 0; i < strs.length; i ++) {
+	         paraFromUrl[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+	      }
+	   }
+	   return paraFromUrl;
+	}
+
+
+var Example = (function(){
+	"use strict";
+	var elem,
+		hideHandler,
+		that = {};
+	that.init = function(options){
+		elem = $(options.selector);
+	};
+	that.show = function(text){
+		clearTimeout(hideHandler);
+		
+		elem.find("p").html(text);
+		elem.delay(200).fadeIn().delay(4000).fadeOut();
+	};
+	
+	return that;
+}());
 
 </script>
+			
+</div><!-- /.main-content -->
+
 <%@ include file="../../afterContent.jsp" %>
