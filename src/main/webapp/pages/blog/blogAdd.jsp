@@ -1,6 +1,6 @@
-<%@ include file="../../beforeContent.jsp" %>
+<%@ include file="../../beforeContent2.jsp" %>
 
-
+		
 
 <div class="main-content">
 				<div class="main-content-inner">
@@ -38,117 +38,108 @@
 
 
 
-    <div class="row">
-							<div class="col-xs-12">
+   <div class="row">
+	<div class="col-xs-12">
+	 <div class="col-xs-offset-2 col-xs-10">
+	<span id="autosvdsecond"><span id="e_svdsecond"></span>&nbsp;
+<a id="e_svd" onclick="Cautocode('svd');return false;" style="font-weight:normal;" href="javascript:;">Save(only for demo)</a>&nbsp;&nbsp;
+<a id="e_rst" onclick="Cautocode('rst');return false;" style="font-weight:normal;" href="javascript:;">Restore(only for demo)</a>&nbsp;&nbsp;
+&nbsp;&nbsp;<em id="e_svdsecond_tip"></em></span>
+    </div>
       	<form class="form-horizontal" id="addBlogForm" >
-		                                
+		    <div class="form-group">
+			 <label for="input password" class="col-sm-2 control-label">title</label>
+			  <div class="col-sm-9">
+				  <input type="text" class="form-control" id="title" name="title" placeholder="title" >
+			 </div>
+			</div>
 										
-									
-									    
-										
-										<div class="form-group">
-													<label for="input password" class="col-sm-3 control-label">title</label>
-													<div class="col-sm-9">
-													  <input type="text" class="form-control" id="title" name="title" placeholder="title" >
-													</div>
-										</div>
-										
-										
-										
-										
-										<div class="form-group">
-													<label for="input password" class="col-sm-3 control-label">content</label>
-													<div class="col-sm-9">
-													  <textarea class="form-control" rows="10" id="editor" name="editor" value="write your blog here..." >
-													  </textarea>
-													</div>
-										</div>								
-						</form><!-- /.form -->
-										<div class="col-sm-offset-5 col-sm-10">
-											  <button  id="editorSave" class="btn btn-primary" >Save</button>
-											  <button  id="editorPost" class="btn btn-primary" >Post Blog</button>
-											  
-											</div>
-
-  
-						</div>
-						</div>
-						</div><!-- /.page-content -->
+			<div class="form-group">
+				<label for="input password" class="col-sm-2 control-label">content</label>
+				<div class="col-sm-9">
+				  <textarea class="form-control" id="editor1" name="html">
+				  </textarea>
 				</div>
+			</div>								
+		</form><!-- /.form -->
+	<div class="col-sm-offset-2 col-sm-10">	
+	
+	 <button  id="editorPost" class="btn btn-primary" >Post Blog</button>  
+	</div>
+    </div>
+   </div>
+  </div><!-- /.page-content -->
+</div>
+</div><!-- /.main-content -->			
 				
 				
 				
-				
-</div><!-- /.main-content -->
-<script src="<%= request.getContextPath()%>/vendor/ckeditor-selfbuild/ckeditor/ckeditor/ckeditor.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/ckeditor-selfbuild/ckeditor/plupload-2.3.6/js/plupload.full.min.js"></script>
+
+<script src="<%= request.getContextPath()%>/vendor/jquery.form.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/ckeditor/ckeditor.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/bootbox/bootbox.js"></script>
+<script src="<%= request.getContextPath()%>/js/content_autosave.js"></script>
 <script>
 
 $(window).load(function(){
-    console.log("load bolg title and content");
-    var para = getParaFromUrl();
-    var blogId = para.blogId;
-    console.log(para.blogId);
-    var setup = function(obj){
-    	if (obj.code == 200){
-    		//var data = obj.data;
-    		//$('#title').val(data.title);
-    		//$('#content').val(data.content);
-    	}
-    }
-    //var url = 'http://localhost:8080/resig-server/api/blog/get/' + blogId
-    //$.getJSON(url, setup);
+	//restore user editor content
+	var name = window.sessionStorage.getItem("username");
+	console.log(name+ ' for rst');
+	var data = loadUserdata(name);
+	console.log(data);
+	//ck.resetAll();
+	ck.set('editor1', data);
 });
 
 jQuery(function($) {
+	//init editor	
+	  var editor = CKEDITOR.replace('editor1');
 	//handling the editor content
-	var ck = {
-			updateAll: function () {
-					for (instance in CKEDITOR.instances) {
-							CKEDITOR.instances[instance].updateElement();
-					}
-			},
-			resetAll: function () {
-					for (instance in CKEDITOR.instances) {
-							CKEDITOR.instances[instance].setData("");
-					}
-			},
-			update: function (id) {
-					CKEDITOR.instances[id].updateElement();
-			},
-			reset: function (id) {
-					CKEDITOR.instances[id].setData("");
-			},
-			set: function (id, content) {
-					CKEDITOR.instances[id].setData(content);
-			},
-			get: function(id) {
-					return CKEDITOR.instances[id].getData();
-			},
-			insert: function (id, content) {
-					CKEDITOR.instances[id].insertHtml(content);
-			}
-		};
-	//init editor
-  CKEDITOR.replace('editor');
-	 
 	
-	 
-	// save editor content 
-	$('#editorSave').click(function(){
-	var token = <%= session.getAttribute("token")%>;
-    var para = getParaFromUrl();
-    var blogId = para.blogId;
-    var editorContent = ck.get();
-    var editorContent = $('#editBlogForm').formSerialize();
-    console.log(editorContent);
+	//initialize self-defined autosave
+	   if($(editorid + '_svdsecond') && savedatat === null) { 
+		   savedatac = savedataInterval;
+		   autosave = !getcookie('editorautosave_' + editorid) || getcookie('editorautosave_' + editorid) == 1 ? 1 : 0;
+		   savedataTime();
+		   savedatat = setInterval("savedataTime()", 5000);
+		   }
+	//------end initialize----------
+	
+	//click save btn, save evt fired
+	editor.on('save', function (evt){
+		var name = window.sessionStorage.getItem("username");
+		//console.log(name);
+		var data = ck.get('editor1');
+		saveUserdata(name, data);
+	})
+
+	
+	var token = "Bearer " + "<%= session.getAttribute("token")%>";
+	console.log(token);
+	
+ $('#editorPost').click(function(){
+				
+	 try{
+		 for(instance in CKEDITOR.instances){
+			 CKEDITOR.instances[instance].updateElement();
+			 }
+		var editorContent = ck.get('editor1');
+     $('#editor1').val(editorContent);
+	}catch(ex){}
+    //include title
+    var submitData = $('#addBlogForm').formSerialize() + "&" + "markdown=" + "" + "&" + "blogEditor=" + "htmlEditor";
+    
+    console.log(submitData);
     var option = {
-    		type: "POST",
-    		url: 'http://39.106.21.117:8080/v1/api/blog/add',
-    		data: editorContent,
-    		beforeSend: function(request){
-    			request.setRequestHeader("Authorization", token);
-    		},
+    	  "async": true,
+    	  "crossDomain": true,
+    	  "url": "http://39.106.21.117:8080/v1/api/blog/add",
+    	  "method": "POST",
+            "headers": {
+            	"content-type": "application/x-www-form-urlencoded",
+            	"Authorization": "Bearer " + "<%= session.getAttribute("token")%>"
+            },
+    		"data": submitData,
     		success:function(data){
     			var dialog = bootbox.dialog({
     			    message: '<p class="text-center">' + data.message + '</p>',
@@ -164,6 +155,7 @@ jQuery(function($) {
 		    		}, 3000);
 		         }
     };
+    console.log(option);
     $.ajax(option);
     
     
@@ -174,4 +166,5 @@ jQuery(function($) {
 
 
 </script>
+
 <%@ include file="../../afterContent.jsp" %>

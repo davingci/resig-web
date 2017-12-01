@@ -53,12 +53,16 @@
                   <table id="testdataTables" class="table table-striped table-bordered table-hover">
                     <thead>
                       <tr>
+                        <th>blogId</th>
+                        <th>creatAt</th>
+                        <th>lastModifyAt</th>
                         <th>username(Id)</th>
                         <th>userId</th>
                         <th>title</th>
                         <th>content</th>
-                        <th>cteateTime</th>
-                        <th>lastModifyTime</th>
+                        <th>favoriteCount</th>
+                        <th>markCount</th>
+                        <th>viewCount</th>
                         <th>operation</th>
                       </tr>
                     </thead>
@@ -77,13 +81,13 @@
     </div><!-- /.page-content -->
     </div>><!-- main-content -->
  <script src="<%= request.getContextPath()%>/vendor/jquery-ui.min.js"></script>
- <script src="<%= request.getContextPath()%>/vendor/datatables.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/vendor/datatables.min.css"/>
+ <script src="<%= request.getContextPath()%>/vendor/DataTables/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/vendor/DataTables/datatables.min.css"/>
 <script src="<%= request.getContextPath()%>/vendor/jquery.dataTables.min.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/jquery.dataTables.bootstrap.min.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/moment.min.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/bootstrap-datetimepicker.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/bootbox.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/bootbox/bootbox.js"></script>
 
 
 
@@ -91,7 +95,7 @@
 <script type="text/javascript">
   jQuery(function($) {
     
-    var sAjaxSource = 'http://localhost:8080/resig-server/api/blog/query';
+    var sAjaxSource = 'http://39.106.21.117:8080/v1/api/blog/query';
     var testTable =
     $('#testdataTables')
     .DataTable({
@@ -116,13 +120,17 @@
 
  },
  "columns": [
-	 { "data": "username" },
+	 { "data": "blogId"},
+	 { "data": "createAt"},
+	 { "data": "lastModifyAt"},
+	 { "data": "username"},
      { "data": "userId"},
-     { "data": "title" },
-     { "data": "content" },
-     { "data": "createTime" },
-     { "data": "lastModifyTime" },
-     { "data": "blogId"}
+     { "data": "title"},
+     { "data": "html"},
+     {"data": "favouriteCount"},
+     {"data": "markCount"},
+     {"data": "viewCount"},
+     {"data": "blogEditor"}
  ],
  "columnDefs": [
      {
@@ -131,18 +139,17 @@
          // this case `data: 0`.
          "render": function ( data, type, row ) {
         	 
-             return data +' ('+ row.userId+')';
+             return data +' ('+ row.blogId+')';
          },
          "targets": 0
      },
-     { "visible": false,  "targets": [ 1 ] },
      {
          "render": function ( data, type, row ) {
 				var day = moment(data);
 				var str = day.format("YYYY-MM-DD");
 				return str;
          },
-         "targets": 4
+         "targets": 1
      },
      {
          "render": function ( data, type, row ) {
@@ -150,17 +157,40 @@
 				var str = day.format("YYYY-MM-DD");
 				return str;
          },
-         "targets": 5
+         "targets": 2
      },
+     {
+    	 "render": function (data, type, row) {
+    		 return data + '(' + row.userId + ')';
+    	 },
+     	"targets": 3
+     },
+     {"visible": false,  	"targets": [4]},
+     {
+    	 "render": function (data, type, row) {
+    		 return data;
+    	 },
+     	"targets": 5
+     },
+     {
+    	 "render": function (data, type, row) {
+    		 //remove all html tag using exp
+    		 return data.replace(/<[^>]+>/g,"");
+    	 },
+     	"targets": 6
+     },
+     { "visible": false,  "targets": [7] },
+     { "visible": false,  "targets": [8] },
+     { "visible": false,  "targets": [9] },
      {
          "render": function ( data, type, row ) {
 				var str ="";
 				//alert(row.blogId);
-				return str = '<button class="btn btn-danger btn-sm" data-id=' + data + ' onclick="delBlog('+ row.blogId + ')"'+'><i class="fa fa-trash-o"></i>Delete</button>'
-                + '<button class="btn btn-danger btn-sm" data-id=' + data + ' onclick="addBlog()" ' +'>Add</button>'
-                + '<button class="btn btn-danger btn-sm" data-id=' + data + ' onclick="editBlog(' + data + ')" ' +'>Edit</button>';
+				return str = '<button class="btn btn-danger btn-sm" data-id=' + row.blogId + ' onclick="delBlog('+ row.blogId + ')"'+'><i class="fa fa-trash-o"></i>Delete</button>'
+                + '<button class="btn btn-danger btn-sm" data-id=' + row.blogId + ' onclick="addBlog()" ' +'>Add</button>'
+                + '<button class="btn btn-danger btn-sm" data-id=' + row.blogId + ' onclick="editBlog(' + row.blogId + ')" ' +'>Edit</button>';
          },
-         "targets": 6
+         "targets": 10
      }
  ]
 });
@@ -200,11 +230,17 @@ $("#btnQuery").on("click",function() {
     function delBlog(id){
     	  console.log(id);
     	  $.ajax({
-    		  type:"POST",
-    		  url:"http://localhost:8080/resig-server/api/blog/delete",
+        	  "async": true,
+        	  "crossDomain": true,
+        	  "method": "POST",
+        	  "url": "http://39.106.21.117:8080/v1/api/blog/delete",
+              "headers": {
+              	"content-type": "application/x-www-form-urlencoded",
+              	"Authorization": "Bearer " + "<%= session.getAttribute("token")%>"
+              },
     		  data: "blogId=" + id,
     		  success:function(data){
-    			  alert(data.message);
+    			  alert(data.code + '  ' + data.message);
     			  var table = $("#testdataTables").DataTable();
     	          table.ajax.reload();
     		  },
