@@ -1,4 +1,4 @@
-<%@ include file="../../beforeContent2.jsp" %>
+<%@ include file="../../beforeContentWithCkeditorInitialization.jsp" %>
 
 		
 
