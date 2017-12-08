@@ -10,7 +10,7 @@
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-		<%@ include file="../../include.jsp" %>
+		<%@ include file="../include.jsp" %>
 
 		<link rel="stylesheet" href="assets/dev/jianshu.css" />
 		<link rel="stylesheet" href="assets/dev/main.css" />
@@ -94,7 +94,7 @@ $(document).on('click', '.load-more', function(e){
 
 function loadList(offset, size){
 	var startTime = "2017-01-04";
-	var endTime = "2018-01-08";
+	var endTime = "2020-01-08";
 
 	var template = '<li class="have-img" id="blogId1" style="display:list-item">'+
  								'<a class="wrap-img btn btn-default" href="resig-blog.html?blogId=blogId1"  target="_blank" data-blogId = "blogId1">'+
@@ -162,9 +162,7 @@ function loadList(offset, size){
 /*---------- click events handling function------------ */
 
 
-function getUserInfo(){
 
-}
 
 
 							function modifiedTime(){

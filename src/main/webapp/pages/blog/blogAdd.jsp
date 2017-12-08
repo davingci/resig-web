@@ -1,6 +1,6 @@
 <%@ include file="../../beforeContentWithCkeditorInitialization.jsp" %>
 
-		
+
 
 <div class="main-content">
 				<div class="main-content-inner">
@@ -10,15 +10,15 @@
 								<i class="ace-icon fa fa-home home-icon"></i>
 								<a href="<%= request.getContextPath()%>/index.jsp">home</a>
 							</li>
-							
+
 						</ul><!-- /.breadcrumb -->
 
-						
+
 					</div>
 
 					<div class="page-content">
 						<div class="ace-settings-container" id="ace-settings-container">
-							
+
 
 							</div><!-- /.ace-settings-container -->
 
@@ -33,7 +33,7 @@
 						</div><!-- /.page-header -->
 
 
-						
+
 
 
 
@@ -53,27 +53,27 @@
 				  <input type="text" class="form-control" id="title" name="title" placeholder="title" >
 			 </div>
 			</div>
-										
+
 			<div class="form-group">
 				<label for="input password" class="col-sm-2 control-label">content</label>
 				<div class="col-sm-9">
 				  <textarea class="form-control" id="editor1" name="html">
 				  </textarea>
 				</div>
-			</div>								
+			</div>
 		</form><!-- /.form -->
-	<div class="col-sm-offset-2 col-sm-10">	
-	
-	 <button  id="editorPost" class="btn btn-primary" >Post Blog</button>  
+	<div class="col-sm-offset-2 col-sm-10">
+
+	 <button  id="editorPost" class="btn btn-primary" >Post Blog</button>
 	</div>
     </div>
    </div>
   </div><!-- /.page-content -->
 </div>
-</div><!-- /.main-content -->			
-				
-				
-				
+</div><!-- /.main-content -->
+
+
+
 
 <script src="<%= request.getContextPath()%>/vendor/jquery.form.min.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/ckeditor/ckeditor.js"></script>
@@ -92,19 +92,19 @@ $(window).load(function(){
 });
 
 jQuery(function($) {
-	//init editor	
+	//init editor
 	  var editor = CKEDITOR.replace('editor1');
 	//handling the editor content
-	
+
 	//initialize self-defined autosave
-	   if($(editorid + '_svdsecond') && savedatat === null) { 
+	   if($(editorid + '_svdsecond') && savedatat === null) {
 		   savedatac = savedataInterval;
 		   autosave = !getcookie('editorautosave_' + editorid) || getcookie('editorautosave_' + editorid) == 1 ? 1 : 0;
 		   savedataTime();
 		   savedatat = setInterval("savedataTime()", 5000);
 		   }
 	//------end initialize----------
-	
+
 	//click save btn, save evt fired
 	editor.on('save', function (evt){
 		var name = window.sessionStorage.getItem("username");
@@ -113,12 +113,12 @@ jQuery(function($) {
 		saveUserdata(name, data);
 	})
 
-	
+
 	var token = "Bearer " + "<%= session.getAttribute("token")%>";
 	console.log(token);
-	
+
  $('#editorPost').click(function(){
-				
+
 	 try{
 		 for(instance in CKEDITOR.instances){
 			 CKEDITOR.instances[instance].updateElement();
@@ -128,7 +128,7 @@ jQuery(function($) {
 	}catch(ex){}
     //include title
     var submitData = $('#addBlogForm').formSerialize() + "&" + "markdown=" + "" + "&" + "blogEditor=" + "htmlEditor";
-    
+
     console.log(submitData);
     var option = {
     	  "async": true,
@@ -145,7 +145,7 @@ jQuery(function($) {
     			    message: '<p class="text-center">' + data.message + '</p>',
     			    size: 'small',
     			    closeButton: false,
-    			    callback:function(){ 
+    			    callback:function(){
     			    	Message.show('success');
     			    }
     			});
@@ -157,9 +157,6 @@ jQuery(function($) {
     };
     console.log(option);
     $.ajax(option);
-    
-    
-
 	});
 })//end ready
 
