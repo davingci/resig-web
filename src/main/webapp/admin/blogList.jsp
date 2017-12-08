@@ -80,13 +80,13 @@
       </div><!-- /.row -->
     </div><!-- /.page-content -->
     </div>><!-- main-content -->
- <script src="<%= request.getContextPath()%>/vendor/jquery-ui.min.js"></script>
- <script src="<%= request.getContextPath()%>/vendor/DataTables/datatables.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/vendor/DataTables/datatables.min.css"/>
-<script src="<%= request.getContextPath()%>/vendor/jquery.dataTables.min.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/jquery.dataTables.bootstrap.min.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/moment.min.js"></script>
-<script src="<%= request.getContextPath()%>/vendor/bootstrap-datetimepicker.js"></script>
+ <script src="<%= request.getContextPath()%>/vendor/jquery-ui/jquery-ui.min.js"></script>
+ <script src="<%= request.getContextPath()%>/vendor/data-tables/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/vendor/data-tables/datatables.min.css"/>
+<script src="<%= request.getContextPath()%>/vendor/data-tables/jquery.dataTables.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/data-tables/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/moment/moment.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/bootstrap-datepick/bootstrap-datetimepicker.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/bootbox/bootbox.js"></script>
 
 

@@ -10,11 +10,11 @@
 
         <%@ include file="../include.jsp" %>
 
-		<link rel="stylesheet" href="assets/dev/jianshu.css" />
-		<link rel="stylesheet" href="assets/dev/main.css" />
-		<link rel="stylesheet" href="assets/dev/resigBlog.css" />
+		<link rel="stylesheet" href="css/jianshu.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/resigBlog.css" />
 
-        <script src="assets/vendor/moment.min.js"></script>
+        <script src="assets/vendor/moment/moment.min.js"></script>
 
 
 

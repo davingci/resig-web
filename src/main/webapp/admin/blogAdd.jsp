@@ -75,7 +75,7 @@
 
 
 
-<script src="<%= request.getContextPath()%>/vendor/jquery.form.min.js"></script>
+<script src="<%= request.getContextPath()%>/vendor/jquery-form/jquery.form.min.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/ckeditor/ckeditor.js"></script>
 <script src="<%= request.getContextPath()%>/vendor/bootbox/bootbox.js"></script>
 <script src="<%= request.getContextPath()%>/js/content_autosave.js"></script>
