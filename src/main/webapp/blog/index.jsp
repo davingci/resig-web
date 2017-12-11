@@ -12,9 +12,11 @@
 
 		<%@ include file="../include.jsp" %>
 
-		<link rel="stylesheet" href="css/jianshu.css" />
-		<link rel="stylesheet" href="css/main.css" />
-		<script src="vendor/moment/moment.min.js"></script>
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/jianshu.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/resigBlog.css" />
+
+        <script src="<%= request.getContextPath()%>/vendor/moment/moment.min.js"></script>
 
 <style>
 
@@ -68,7 +70,7 @@
 
 				</ul>
 			</div><!--list-container-->
-			<a data-page="1" href="" class="load-more">éè¯»æ´å¤</a>
+			<a data-page="1" href="" class="load-more">Load More</a>
 			</div>
     </div>
     <!--/row-->

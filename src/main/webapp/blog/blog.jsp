@@ -10,11 +10,11 @@
 
         <%@ include file="../include.jsp" %>
 
-		<link rel="stylesheet" href="css/jianshu.css" />
-		<link rel="stylesheet" href="css/main.css" />
-		<link rel="stylesheet" href="css/resigBlog.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/jianshu.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/resigBlog.css" />
 
-        <script src="assets/vendor/moment/moment.min.js"></script>
+        <script src="<%= request.getContextPath()%>/vendor/moment/moment.min.js"></script>
 
 
 
@@ -57,7 +57,7 @@
  					 <form target="_blank" accept-charset="UTF-8" action="">
  						 <input name="uft8" type="hidden" value="">
  						 <input type="text" name="sea" id="sea" value autocomplete="off" placeholder="search" class="search-input" data-mounted="1">
- 						 <a class="search-btn" href="javascript:void(null)" style="font-size:24px"><span class="glyphicon glyphicon-search"></span></i></a>
+ 						 <a class="search-btn" href="javascript:void(null)" style="font-size:24px"><span class="glyphicon glyphicon-search"></span></a>
  						 <div id="navbar-search-tips" style="display:none;"></div>
  					 </form>
  				 </li>
@@ -222,7 +222,7 @@ $(function(){
 					$("#avatar2").attr("avatar", "");//to be added
 					$("#userId1").html(data.username + ' ' + data.userId);
 					$("#info1").html("total " + data.html.length + " words, " + data.markCount + " follow and " + data.favouriteCount + " Thumb Up");
-					//Is this my blog? yes, add edit btn; no, do nothing.
+					//Is this my blog? yes, display edit btn; no, do nothing.
 					var blogUserId = data.userId;
 					console.log('blogUserId ' + data.userId);
 					if(loginUserId == blogUserId){
@@ -237,7 +237,7 @@ $(function(){
 $("#editBtn").on('click', function(){
 	console.log('go to edit page');
 	//location.href='<%= request.getContextPath()%>/pages/blog/editBlog.jsp?blogId=' + blogId;
-	window.location.href= 'resig-blogEdit.html?blogId=' + blogId;
+	window.location.href= 'editBlog.jsp?blogId=' + blogId;
 });
 
 });//end ready
