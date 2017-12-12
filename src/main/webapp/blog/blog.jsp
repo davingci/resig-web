@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/jianshu.css" />
 		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/main.css" />
 		<link rel="stylesheet" href="<%= request.getContextPath()%>/css/resigBlog.css" />
-
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/css/resigUserInfo.css" />
         <script src="<%= request.getContextPath()%>/vendor/moment/moment.min.js"></script>
 
 
@@ -70,11 +70,11 @@
 		<div class="article">
 			<h1 class="title" id="title1">Title</h1>
 			<div class="author">
-				<a class="avatar" href="">
+				<a id="avatar2" class="avatar" href="">
 				  <img id="avatar1" src="./pic/avatar-list1.png" alt="404">
 			  </a>
 				<div class="info">
-					<span id="authorName1" class="name"><a href="#">author name</a></span>
+					<a id="authorName2"><span id="authorName1" class="name">author name</span></a>
 					<!--follow button-->
 					<a class="btn btn-success follow"><i class="fa fa-plus" aria-hidden="true"></i><span>Follow</span></a>
 					<div class="meta">
@@ -95,7 +95,7 @@
 		</div>
 		<div class="follow-detail">
 			<div class="info">
-				<a id="avatar2" class="avatar" href="#"><img src="./pic/avatar-list1.png" alt="404"></a>
+				<a id="avatar3" class="avatar" href="#"><img id="avatar4" src="./pic/avatar-list1.png" alt="404"></a>
 				<a class="btn btn-success follow"><i class="fa fa-plus" aria-hidden="true"></i><span id="markCount1">Follow</span></a>
 				<a id="userId1" class="title" href="#">userId</a>
 				<p id="info1">total 1000 words, 3 follows, 10 thumb up</p>
@@ -150,10 +150,10 @@
 
 
 $(function(){
-		//var token = "Bearer" + token<%= session.getAttribute("token")%>;
-		//var loginUserId = <%= session.getAttribute("userId") %>;
-		//var loginUsername = <%= session.getAttribute("username") %>;
-		var loginUserId = '1';
+		//var token = "Bearer " + "<%= session.getAttribute("token")%>";
+		//var loginUserId = "<%= session.getAttribute("userId") %>";
+		//var loginUsername = "<%= session.getAttribute("username") %>";
+		var loginUserId = '';
 		var para = getParaFromUrl();
 		//console.log(para);
 		var blogId = para.blogId;
@@ -166,16 +166,19 @@ $(function(){
 					console.log(response);
 					var data = response.data;
 					$("#title1").html(data.title);
-					$("#avatar1").attr("avatar", "");//to be added
+					$("#avatar1").attr("src", "./pic/avatar-list1.png");//to be added
+					$("#avatar2").attr("href","userInfo.jsp?userId=" + data.userId);
 					$("#authorName1").html(data.username + " " + data.userId);
+					$("#authorName2").attr("href", "userInfo.jsp?userId=" + data.userId);
 					$("#markCount1").html(data.markCount + " Follow");
 					$("#lastModifyAt1").html(moment(data.lastModifyAt).format("YYYY-MM-DD"));
 					$("#wordage1").html(data.html.length + " Words");
 					$("#viewCount1").html(data.viewCount + " Views");
 					$("#favouriteCount1").html(data.favouriteCount + " Thumb Up");
 					$("#html1").html(data.html);
-					$("#avatar2").attr("avatar", "");//to be added
-					$("#userId1").html(data.username + ' ' + data.userId);
+					$("#avatar3").attr("href","userInfo.jsp?userId=" + data.userId);
+					$("#avatar4").attr("src", "./pic/avatar-list1.png");
+					$("#userId1").attr("href","userInfo.jsp?userId=" + data.userId).html(data.username + ' ' + data.userId);
 					$("#info1").html("total " + data.html.length + " words, " + data.markCount + " follow and " + data.favouriteCount + " Thumb Up");
 				}
 			};
@@ -211,16 +214,19 @@ $(function(){
 					//console.log(response);
 					var data = response.data;
 					$("#title1").html(data.title);
-					$("#avatar1").attr("avatar", "");//to be added
+					$("#avatar1").attr("src", "./pic/avatar-list1.png");//to be added
+					$("#avatar2").attr("href","userInfo.jsp?userId=" + data.userId);
 					$("#authorName1").html(data.username + " " + data.userId);
+					$("#authorName2").attr("href", "userInfo.jsp?userId=" + data.userId);
 					$("#markCount1").html(data.markCount + " Follow");
 					$("#lastModifyAt1").html(moment(data.lastModifyAt).format("YYYY-MM-DD"));
 					$("#wordage1").html(data.html.length + " Words");
 					$("#viewCount1").html(data.viewCount + " Views");
 					$("#favouriteCount1").html(data.favouriteCount + " Thumb Up");
 					$("#html1").html(data.html);
-					$("#avatar2").attr("avatar", "");//to be added
-					$("#userId1").html(data.username + ' ' + data.userId);
+					$("#avatar3").attr("href","userInfo.jsp?userId=" + data.userId);
+					$("#avatar4").attr("src", "./pic/avatar-list1.png");
+					$("#userId1").attr("href","userInfo.jsp?userId=" + data.userId).html(data.username + ' ' + data.userId);
 					$("#info1").html("total " + data.html.length + " words, " + data.markCount + " follow and " + data.favouriteCount + " Thumb Up");
 					//Is this my blog? yes, display edit btn; no, do nothing.
 					var blogUserId = data.userId;
