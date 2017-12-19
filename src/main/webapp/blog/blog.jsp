@@ -189,13 +189,13 @@ $(function(){
 			//then ajax
 			console.log('loginUserId ' + loginUserId);
 			//userInfo path
-			//var userInfo = '<%= request.getContextPath()%>/pages/blog/resig-userInfo.jsp?userId=' + userId
+			//var userInfo = '<%= request.getContextPath()%>/blog/userInfo.jsp?userId=' + userId
 
 			//navbar manipulate
 			var userInfo = loginUserId;
 			$("#sign-up-user").attr('target','_blank')
-												.attr('href', userInfo)
-												.html('Welcome ' + loginUserId);
+							  .attr('href', userInfo)
+							  .html('Welcome ' + loginUserId);
 			$("#sign-up-user span").remove();
       //Log off and redirct to index page
 			var indexPath = 'resig-index-ajax.html';
